@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    timescaledb:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: timescaledb
+        env_file:
+            - ./.env
+        hostname: timescaledb
+        image: infra/timescaledb:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.15
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - timescaledb:/var/lib/postgresql/data
+
+volumes:
+    timescaledb:
+        driver: local
+        name: timescaledb

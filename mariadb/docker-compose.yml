@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    mariadb:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: mariadb
+        env_file:
+            - ./.env
+        hostname: mariadb
+        image: infra/mariadb:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.18
+        volumes:
+            - mariadb:/var/lib/mysql
+
+volumes:
+    mariadb:
+        driver: local
+        name: mariadb

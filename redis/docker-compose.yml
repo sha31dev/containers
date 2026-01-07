@@ -1,0 +1,29 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    redis:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: redis
+        hostname: redis
+        image: infra/redis:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.5
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - redis:/var/lib/redis
+
+volumes:
+    redis:
+        driver: local
+        name: redis

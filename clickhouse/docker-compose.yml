@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    clickhouse:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: clickhouse
+        env_file:
+            - ./.env
+        hostname: clickhouse
+        image: infra/clickhouse:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.4
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - clickhouse:/var/lib/clickhouse
+
+volumes:
+    clickhouse:
+        driver: local
+        name: clickhouse

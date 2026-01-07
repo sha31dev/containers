@@ -1,0 +1,35 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    vault:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        cap_add:
+            - IPC_LOCK
+        command: vault server -config=/vault/config/vault.hcl
+        container_name: vault
+        env_file:
+            - ./.env
+        hostname: vault
+        image: infra/vault:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.12
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./vault.hcl:/vault/config/vault.hcl
+            - vault:/vault/data
+
+volumes:
+    vault:
+        driver: local
+        name: vault

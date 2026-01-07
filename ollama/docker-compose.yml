@@ -1,0 +1,30 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    ollama:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: ollama
+        hostname: ollama
+        image: infra/ollama:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.7
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ollama:/root/.ollama
+            - ../../models/ollama:/root/.ollama/models
+
+volumes:
+    ollama:
+        driver: local
+        name: ollama

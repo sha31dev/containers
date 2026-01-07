@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    postgres:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: postgres
+        env_file:
+            - ./.env
+        hostname: postgres
+        image: infra/postgres:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.2
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - postgres:/var/lib/postgresql/data
+
+volumes:
+    postgres:
+        driver: local
+        name: postgres

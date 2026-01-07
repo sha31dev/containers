@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    kafka:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: kafka
+        env_file:
+            - ./.env
+        hostname: kafka
+        image: infra/kafka:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.13
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - kafka:/var/lib/kafka/data
+
+volumes:
+    kafka:
+        driver: local
+        name: kafka

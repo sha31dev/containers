@@ -1,0 +1,26 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    frappe:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: frappe
+        cpus: '2.0'
+        hostname: frappe
+        image: infra/frappe:1.0
+        mem_limit: 6G
+        networks:
+            infra:
+                ipv4_address: 172.18.0.16
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ../../bench:/workspace

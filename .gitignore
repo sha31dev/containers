@@ -1,0 +1,19 @@
+# Environment
+*.env
+*.env.*
+!.env.example
+
+# Logs
+*.log
+**/logs/
+
+# Migrations
+**/migrations/**/**.*
+
+# Secrets.
+*.key
+*.pem
+*.pub
+
+# Settings
+.vscode/

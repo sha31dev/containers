@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    mysql:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: mysql
+        env_file:
+            - ./.env
+        hostname: mysql
+        image: infra/mysql:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.17
+        volumes:
+            - mysql:/var/lib/mysql
+
+volumes:
+    mysql:
+        driver: local
+        name: mysql

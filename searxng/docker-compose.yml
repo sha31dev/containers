@@ -1,0 +1,30 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    searxng:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: searxng
+        hostname: searxng
+        image: infra/searxng:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.9
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./config:/etc/searxng/:ro
+            - searxng:/var/cache/searxng/
+
+volumes:
+    searxng:
+        driver: local
+        name: searxng

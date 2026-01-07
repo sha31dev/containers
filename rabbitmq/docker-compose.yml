@@ -1,0 +1,32 @@
+version: "3"
+
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    rabbitmq:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: rabbitmq
+        hostname: rabbitmq
+        image: infra/rabbitmq:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.8
+        volumes:
+            - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+            - rabbitmq:/var/lib/rabbitmq
+
+volumes:
+    rabbitmq:
+        driver: local
+        name: rabbitmq

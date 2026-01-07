@@ -1,0 +1,32 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    minio:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: server /data --console-address ":9001"
+        container_name: minio
+        env_file:
+            - ./.env
+        hostname: minio
+        image: infra/minio:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.3
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - minio:/data
+
+volumes:
+    minio:
+        driver: local
+        name: minio
