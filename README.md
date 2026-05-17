@@ -24,3 +24,4 @@ Docker containers for various services to streamline development. All containers
 - MariaDB           172.18.0.18 (3306)
 - FusionAuth        172.18.0.19 (9011)
 - NginX             172.18.0.20 (80, 443)
+- Memcached         172.18.0.21 (11211)

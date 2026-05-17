@@ -1,0 +1,29 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    memcached:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: memcached
+        env_file:
+            - ./.env
+        healthcheck:
+            test: ["CMD", "sh", "-c", "echo stats | nc -w1 0.0.0.0 11211"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+        hostname: memcached
+        image: infra/memcached:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.21
