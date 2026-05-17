@@ -29,3 +29,34 @@ Docker containers for various services to streamline development. All containers
 - Windmill          172.18.0.23 (8000)
 - WindmillWorker    172.18.0.24 (8000)
 - Kong              172.18.0.25 (8000, 8001, 8002)
+- NiFi              172.18.0.26 (8080)
+- NiFiRegistry      172.18.0.27 (18080)
+- Neo4J             172.18.0.28 (7474, 7687)
+
+- NATS
+- Weaviate
+- Jenkins
+- Hive
+- ElasticSearch
+- Kibana
+- OpenSearch
+- OpenSearchDashboards
+- MongoDB
+- ChromaDB
+- Cassandra
+- KeyCloak
+- FreeRadius
+- Spark
+- InfluxDB
+- CockroachDB
+- Grafana
+- Prometheus
+- SonarQube
+- Squid
+- WireGuard
+- Consul
+- Zookeeper
+- Caddy
+- Traefik
+- TailScale
+- VLLM
