@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    cassandra:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: cassandra
+        env_file:
+            - ./.env
+        hostname: cassandra
+        image: infra/cassandra:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.30
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - cassandra:/var/lib/cassandra
+
+volumes:
+    cassandra:
+        driver: local
+        name: cassandra
