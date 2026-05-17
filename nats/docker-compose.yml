@@ -1,0 +1,32 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    nats:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: nats
+        env_file:
+            - ./.env
+        hostname: nats
+        image: infra/nats:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.32
+        volumes:
+            - ./nats.conf:/etc/nats/nats-server.conf
+            - nats:/data
+
+volumes:
+    nats:
+        driver: local
+        name: nats
