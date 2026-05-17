@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    windmill:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: windmill
+        env_file:
+            - ./.env
+        hostname: windmill
+        image: infra/windmill:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.23
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - windmill:/tmp/windmill
+
+volumes:
+    windmill:
+        driver: local
+        name: windmill

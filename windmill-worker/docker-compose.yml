@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    windmill-worker:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: windmill-worker
+        env_file:
+            - ./.env
+        hostname: windmill-worker
+        image: infra/windmill-worker:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.24
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - windmill-worker:/tmp/windmill
+
+volumes:
+    windmill-worker:
+        driver: local
+        name: windmill-worker

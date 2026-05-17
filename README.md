@@ -26,3 +26,5 @@ Docker containers for various services to streamline development. All containers
 - NginX             172.18.0.20 (80, 443)
 - Memcached         172.18.0.21 (11211)
 - SeaweedFS         172.18.0.22 (8333, 8888, 9333)
+- Windmill          172.18.0.23 (8000)
+- WindmillWorker    172.18.0.24 (8000)
