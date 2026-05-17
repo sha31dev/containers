@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    mongodb:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: mongodb
+        env_file:
+            - ./.env
+        hostname: mongodb
+        image: infra/mongodb:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.29
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - mongodb:/data/db
+
+volumes:
+    mongodb:
+        driver: local
+        name: mongodb
