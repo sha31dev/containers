@@ -1,0 +1,34 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    fusionauth:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: fusionauth
+        env_file:
+            - ./.env
+        environment:
+            - FUSIONAUTH_APP_KICKSTART_FILE=${FUSIONAUTH_APP_KICKSTART_FILE:-/usr/local/fusionauth/kickstart.json}
+        hostname: fusionauth
+        image: infra/fusionauth:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.19
+        volumes:
+            - ./migrations:/usr/local/fusionauth/migrations:ro
+            - fusionauth:/usr/local/fusionauth/config
+
+volumes:
+    fusionauth:
+        driver: local
+        name: fusionauth

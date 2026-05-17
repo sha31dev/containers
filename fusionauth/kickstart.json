@@ -1,0 +1,32 @@
+{
+    "variables": {
+        "adminEmail": "#{ENV.FUSIONAUTH_ADMIN_EMAIL}",
+        "adminPassword": "#{ENV.FUSIONAUTH_ADMIN_PASSWORD}",
+        "apiKey": "#{ENV.FUSIONAUTH_API_KEY}"
+    },
+    "apiKeys": [
+        {
+            "key": "#{apiKey}",
+            "keyManager": true,
+            "description": "Super API Key"
+        }
+    ],
+    "requests": [
+        {
+            "method": "POST",
+            "url": "/api/user/registration",
+            "body": {
+                "user": {
+                    "email": "#{adminEmail}",
+                    "password": "#{adminPassword}"
+                },
+                "registration": {
+                    "applicationId": "#{FUSIONAUTH_APPLICATION_ID}",
+                    "roles": [
+                        "admin"
+                    ]
+                }
+            }
+        }
+    ]
+}
