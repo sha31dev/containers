@@ -1,0 +1,33 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    kong:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: kong
+        env_file:
+            - ./.env
+        healthcheck:
+            test: ["CMD", "kong", "health"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+        hostname: kong
+        image: infra/kong:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.25
+        ulimits:
+            nofile:
+                hard: 4096
+                soft: 4096

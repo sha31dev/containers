@@ -28,3 +28,4 @@ Docker containers for various services to streamline development. All containers
 - SeaweedFS         172.18.0.22 (8333, 8888, 9333)
 - Windmill          172.18.0.23 (8000)
 - WindmillWorker    172.18.0.24 (8000)
+- Kong              172.18.0.25 (8000, 8001, 8002)
