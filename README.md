@@ -22,3 +22,5 @@ Docker containers for various services to streamline development. All containers
 - Frappe            172.18.0.16 (8080)
 - MySQL             172.18.0.17 (3306)
 - MariaDB           172.18.0.18 (3306)
+- FusionAuth        172.18.0.19 (9011)
+- NginX             172.18.0.20 (80, 443)
