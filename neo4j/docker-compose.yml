@@ -1,0 +1,34 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    neo4j:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: neo4j
+        env_file:
+            - ./.env
+        hostname: neo4j
+        image: infra/neo4j:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.28
+        volumes:
+            - neo4j:/data
+            - neo4j:/imports
+            - neo4j:/logs
+            - neo4j:/plugins
+
+volumes:
+    neo4j:
+        driver: local
+        name: neo4j
