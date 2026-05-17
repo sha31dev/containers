@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    weaviate:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: weaviate
+        env_file:
+            - ./.env
+        hostname: weaviate
+        image: infra/weaviate:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.31
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - weaviate:/var/lib/weaviate
+
+volumes:
+    weaviate:
+        driver: local
+        name: weaviate
