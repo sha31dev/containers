@@ -1,0 +1,30 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    nifi:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: nifi
+        hostname: nifi
+        image: infra/nifi:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.26
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./nifi.properties:/opt/nifi/conf/nifi.properties
+            - nifi:/opt/nifi
+
+volumes:
+    nifi:
+        driver: local
+        name: nifi

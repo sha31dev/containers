@@ -1,0 +1,30 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    nifi-registry:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: nifi-registry
+        hostname: nifi-registry
+        image: infra/nifi-registry:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.27
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./nifi-registry.properties:/opt/nifi/conf/nifi-registry.properties
+            - nifi-registry:/opt/nifi-registry
+
+volumes:
+    nifi-registry:
+        driver: local
+        name: nifi-registry
