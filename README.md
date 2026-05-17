@@ -25,3 +25,4 @@ Docker containers for various services to streamline development. All containers
 - FusionAuth        172.18.0.19 (9011)
 - NginX             172.18.0.20 (80, 443)
 - Memcached         172.18.0.21 (11211)
+- SeaweedFS         172.18.0.22 (8333, 8888, 9333)
