@@ -1,0 +1,33 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    jenkins:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: jenkins
+        hostname: jenkins
+        image: infra/jenkins:1.0
+        privileged: true
+        restart: unless-stopped
+        env_file:
+            - ./.env
+        networks:
+            infra:
+                ipv4_address: 172.18.0.33
+        user: root
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - jenkins:/var/jenkins_home
+
+volumes:
+    jenkins:
+        driver: local
+        name: jenkins
