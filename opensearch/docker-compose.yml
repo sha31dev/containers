@@ -1,0 +1,38 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    opensearch:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: opensearch
+        env_file:
+            - ./.env
+        hostname: opensearch
+        image: infra/opensearch:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.34
+        restart: unless-stopped
+        tty: true
+        ulimits:
+            memlock:
+                hard: -1
+                soft: -1
+            nofile:
+                hard: 65536
+                soft: 65536
+        volumes:
+            - opensearch:/usr/share/opensearch/data
+
+volumes:
+    opensearch:
+        driver: local
+        name: opensearch

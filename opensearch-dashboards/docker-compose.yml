@@ -1,0 +1,24 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    opensearch-dashboards:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: opensearch-dashboards
+        env_file:
+            - ./.env
+        hostname: opensearch-dashboards
+        image: infra/opensearch-dashboards:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.35
+        restart: unless-stopped
+        tty: true
