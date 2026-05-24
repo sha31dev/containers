@@ -1,0 +1,33 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    openldap:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: --copy-service
+        container_name: openldap
+        env_file:
+            - ./.env
+        hostname: openldap
+        image: infra/openldap:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.38
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - openldap:/var/lib/ldap
+            - ./migrations:/container/service/slapd/assets/config/bootstrap/ldif/custom
+
+volumes:
+    openldap:
+        driver: local
+        name: openldap
