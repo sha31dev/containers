@@ -19,7 +19,7 @@ services:
         image: infra/chromadb:1.0
         networks:
             infra:
-                ipv4_address: 172.18.0.38
+                ipv4_address: 172.18.0.36
         restart: unless-stopped
         tty: true
         volumes:
