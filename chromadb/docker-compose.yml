@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    chromadb:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: chromadb
+        env_file:
+            - ./.env
+        hostname: chromadb
+        image: infra/chromadb:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.38
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - chromadb:/data
+
+volumes:
+    chromadb:
+        driver: local
+        name: chromadb
