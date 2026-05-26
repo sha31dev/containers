@@ -1,0 +1,25 @@
+networks:
+    infra:
+        driver: bridge
+        external: false
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    kibana:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            network: host
+        container_name: kibana
+        env_file:
+            - ./.env
+        hostname: kibana
+        image: infra/kibana:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.42
