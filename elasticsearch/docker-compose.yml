@@ -1,0 +1,37 @@
+version: "3"
+
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    elasticsearch:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: elasticsearch
+        env_file:
+            - ./.env
+        hostname: elasticsearch
+        image: infra/elasticsearch:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.41
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - elasticsearch:/usr/share/elasticsearch/data
+
+volumes:
+    elasticsearch:
+        driver: local
+        name: elasticsearch
