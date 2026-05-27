@@ -1,0 +1,24 @@
+networks:
+  infra:
+    driver: bridge
+    external: true
+    name: infra
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+services:
+  phpmyadmin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: phpmyadmin
+    env_file:
+      - ./.env
+    hostname: phpmyadmin
+    image: infra/phpmyadmin:1.0
+    restart: unless-stopped
+    tty: true
+    networks:
+      infra:
+        ipv4_address: 172.18.0.52
