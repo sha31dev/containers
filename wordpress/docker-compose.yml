@@ -1,0 +1,26 @@
+networks:
+  infra:
+    driver: bridge
+    external: true
+    name: infra
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+services:
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wordpress
+    env_file:
+      - ./.env
+    hostname: wordpress
+    image: infra/wordpress:1.0
+    restart: unless-stopped
+    tty: true
+    networks:
+      infra:
+        ipv4_address: 172.18.0.53
+    volumes:
+      - ../../wordpress:/var/www/html
