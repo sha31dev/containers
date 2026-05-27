@@ -1,0 +1,24 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    traefik:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: traefik
+        hostname: traefik
+        image: infra/traefik:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.40
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
