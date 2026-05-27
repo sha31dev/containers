@@ -1,0 +1,26 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    litellm:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: litellm
+        env_file:
+            - ./.env
+        hostname: litellm
+        image: infra/litellm:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.50
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./config.yml:/app/config.yml
