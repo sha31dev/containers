@@ -1,0 +1,31 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    grafana:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: grafana
+        env_file:
+            - ./.env
+        hostname: grafana
+        image: infra/grafana:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.53
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - grafana:/var/lib/grafana
+
+volumes:
+    grafana:
+        driver: local
+        name: grafana
