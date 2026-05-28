@@ -1,0 +1,29 @@
+version: "3"
+
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    keycloak:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: keycloak
+        env_file:
+            - ./.env
+        hostname: keycloak
+        image: infra/keycloak:1.0
+        restart: unless-stopped
+        tty: true
+        networks:
+            infra:
+                ipv4_address: 172.18.0.52
+        volumes:
+            - ./certs:/etc/x509/https
+            - ./migrations:/opt/keycloak/data/import
