@@ -43,3 +43,39 @@ Docker containers for various services to streamline development. All containers
 - FreeRadius            172.18.0.37 (1812, 1813)
 - OpenLDAP              172.18.0.38 (389, 636)
 - Consul                172.18.0.39 (8500)
+- Traefik               172.18.0.40 (8080)
+- ElasticSearch         172.18.0.41 (9200, 9300)
+- Kibana                172.18.0.42 (5601)
+- LiteLLM               172.18.0.45 (4000)
+- BiFrost               172.18.0.48 (8080)
+- PHPMyAdmin            172.18.0.49 (80)
+- WordPress             172.18.0.50 (80)
+- Portainer             172.18.0.51 (9000)
+- KeyCloak              172.18.0.52 (8080, 8443)
+- Grafana               172.18.0.53 (3000)
+
+## Roadmap
+
+- Logstash              172.18.0.43
+- Filebeat              172.18.0.44
+- OpenWebUI             172.18.0.46
+- SonarQube             172.18.0.47
+- Prometheus            172.18.0.54
+- Caddy                 172.18.0.55
+- Airflow               172.18.0.56
+- Hive                  172.18.0.57
+- Spark                 172.18.0.58
+- InfluxDB              172.18.0.59
+- CockroachDB           172.18.0.60
+- Zookeeper             172.18.0.61
+- ScyllaDB              172.18.0.62
+- Envoy                 172.18.0.63 (8080)
+- Flink                 172.18.0.64
+- CEPH                  172.18.0.65
+
+## Optional
+
+Squid, WireGuard, TailScale, 
+VLLM, OpenVPN, Strongswan, 
+OpenWhisk, Nextcloud, Bitwarden, 
+Bookstack, Authentik
