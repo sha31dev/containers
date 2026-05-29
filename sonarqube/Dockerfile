@@ -1,0 +1,1 @@
+FROM sonarqube:26.5.0.122743-community

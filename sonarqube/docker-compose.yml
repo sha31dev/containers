@@ -1,0 +1,29 @@
+networks:
+  infra:
+    driver: bridge
+    external: true
+    name: infra
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+services:
+  sonarqube:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sonarqube
+    hostname: sonarqube
+    image: infra/sonarqube:1.0
+    restart: unless-stopped
+    tty: true
+    networks:
+      infra:
+        ipv4_address: 172.18.0.47
+    volumes:
+      - sonarqube:/opt/sonarqube
+
+volumes:
+  sonarqube:
+    driver: local
+    name: sonarqube
