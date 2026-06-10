@@ -1,0 +1,32 @@
+networks:
+    infra:
+        driver: bridge
+        external: true
+        name: infra
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
+
+services:
+    n8n:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            network: host
+        container_name: n8n
+        env_file:
+            - ./.env
+        hostname: n8n
+        image: infra/n8n:1.0
+        networks:
+            infra:
+                ipv4_address: 172.18.0.56
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - n8n:/home/node/.n8n
+
+volumes:
+    n8n:
+        driver: local
+        name: n8n
